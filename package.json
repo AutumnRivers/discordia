@@ -1,0 +1,37 @@
+{
+  "name": "discordia-alpha",
+  "version": "1.0.0",
+  "description": "Live out a city within your Discord server!",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SmartieCodes/discordia.git"
+  },
+  "keywords": [
+    "discord",
+    "bot"
+  ],
+  "author": "Nati",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SmartieCodes/discordia/issues"
+  },
+  "homepage": "https://github.com/SmartieCodes/discordia#readme",
+  "dependencies": {
+    "discord.js": "github:discordjs/discord.js#11.5-dev",
+    "sqlite": "^3.0.3"
+  },
+  "devDependencies": {
+    "@discordjs/uws": "^11.149.1",
+    "erlpack": "github:hammerandchisel/erlpack",
+    "ffmpeg-static": "^2.4.0",
+    "libsodium-wrappers": "^0.7.4",
+    "node-opus": "^0.3.2",
+    "youtube-search": "^1.1.4",
+    "ytdl-core": "^0.29.2"
+  }
+}
