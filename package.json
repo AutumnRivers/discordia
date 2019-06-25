@@ -1,5 +1,5 @@
 {
-  "name": "discordia-alpha",
+  "name": "discordia",
   "version": "1.0.0",
   "description": "Live out a city within your Discord server!",
   "main": "bot.js",

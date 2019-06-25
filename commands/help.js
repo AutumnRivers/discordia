@@ -12,7 +12,7 @@ module.exports = {
                 },
                 {
                     name: 'City Commands',
-                    value: '`build <contract>`, `tour`, `leaderboards`, `status`, `enter <building>`, `forecast`\n\nView more city commands with `<prefix>help city'
+                    value: '`build <contract>`, `tour`, `leaderboards`, `status`, `enter <building>`, `forecast`, `contracts`\n\nView more city commands with `<prefix>city'
                 },
                 {
                     name: 'Misc. Commands',

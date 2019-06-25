@@ -7,10 +7,27 @@ const sqlite = require('sqlite');
 const config = require('./config.json');
 
 bot.commands = new Discord.Collection();
+bot.contracts = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const contractFiles = fs.readdirSync('./contracts').filter(file => file.endsWith('.json'));
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	bot.commands.set(command.name, command);
+}
+
+for(const file of contractFiles) {
+    const contract = require(`./contracts/${file}`);
+    bot.contracts.set(contract.id, contract);
+}
+
+class Contract {
+    constructor(title, desc, secs, secTims, buildReq) {
+        this.title = title;
+        this.desc = desc;
+        this.sections = secs;
+        this.sectionTimes = secTims;
+        this.buildReq = buildReq;
+    }
 }
 
 class Person {
@@ -68,7 +85,8 @@ bot.on('guildCreate', guild => {
     sqlite.get('SELECT * FROM guilds WHERE id = ?', [guild.id])
     .then(guildInfo => {
         if(!guildInfo) {
-            sqlite.run('INSERT INTO guilds (id, level, title, buildings, prefix, users, queue) VALUES (?, ?, ?, ?, ?, ?, ?)', [guild.id, 0, guild.name, undefined, undefined, '[]', undefined])
+            var contractString = JSON.stringify(bot.contracts.get('tutorial'));
+            sqlite.run('INSERT INTO guilds (id, level, title, buildings, prefix, users, queue, weather, contracts) VALUES (?, ?, ?, ?, ?, ?, ?)', [guild.id, 0, guild.name, '[]', undefined, '[]', '[]', 'clear', '[' + contractString + ']'])
             .then(() => {
                 console.log('Registered ' + guild.name + ' to the database.');
             });
