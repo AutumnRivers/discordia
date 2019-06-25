@@ -13,7 +13,7 @@ module.exports = {
             var embedDesc = '';
 
             contracts.forEach(contract => {
-                embedDesc += '\n\n**' + contract.title + '**\n```\n' + contract.description + '\n```'
+                embedDesc += '\n\n**' + contract.title + '** (ID: `' + contract.id + '`)\n```\n' + contract.description + '\n```'
             });
 
             if(!contracts[0]) embedDesc = 'Hooray, you have no contracts! Take a well-deserved break. :)';

@@ -8,7 +8,7 @@ module.exports = {
             fields:[
                 {
                     name: 'Building',
-                    value: '`city!build <contract>` allows you to get started on building a building, assuming it\'s available in your contracts.'
+                    value: '`city!build <contract ID>` allows you to get started on building a building, assuming it\'s available in your contracts.'
                 },
                 {
                     name: 'Touring',
