@@ -129,7 +129,7 @@ bot.on('message', message => {
         if (!bot.commands.has(command)) return;
 
         try {
-            bot.commands.get(command).execute(message, args);
+            bot.commands.get(command).execute(message, args, bot);
         } catch (error) {
             console.error(error);
             message.reply('there was an error trying to execute that command!');

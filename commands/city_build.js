@@ -1,10 +1,12 @@
 const sqlite = require('sqlite');
 sqlite.open('./database.sqlite');
+const fs = require('fs');
+const contractFiles = fs.readdirSync('./contracts').filter(file => file.endsWith('.json'));
 
 module.exports = {
     name: 'build',
     description: 'This is where the magic happens!',
-    execute(message, args) {
+    execute(message, args, bot) {
         if(!args || args == '') return message.reply('please enter a contract ID! (`city!contracts`)');
 
         sqlite.get('SELECT * FROM guilds WHERE id = ?', [message.guild.id])
@@ -169,7 +171,19 @@ module.exports = {
 									buildings.push(details.id);
 									var buildingString = JSON.stringify(buildings);
 									sqlite.run('DELETE FROM projects WHERE guildId = ?', [message.guild.id]);
-									sqlite.run('UPDATE guilds SET buildings = ? WHERE id = ?', [buildingString, message.guild.id]);
+									sqlite.run('UPDATE guilds SET buildings = ?, contracts = ? WHERE id = ?', [buildingString, '[]', message.guild.id]);
+
+									var contracts = [];
+
+									for(const file of contractFiles) {
+										const contract = require(`../contracts/${file}`);
+										const buildingNum = buildings.length;
+										if(contract.buildingsRequired == buildingNum) contracts.push(contract);
+									}
+
+									var contractsString = JSON.stringify(contracts);
+
+									sqlite.run('UPDATE guilds SET contracts = ? WHERE id = ?', [contractsString, message.guild.id]);
 	
 									message.channel.send('', {embed: {
 										title: "Construction COMPLETE!",
