@@ -2,7 +2,7 @@
     "title": "Discord's Game Center",
     "description": "Could it be? The almighty gods of Discord have requested a building in your city?! It's almost too good to be true!",
     "sections": "10",
-    "sectionTimes": "3000",
+    "sectionTimes": "30000",
     "buildingsRequired": "2",
     "id": "gamecenter"
 }

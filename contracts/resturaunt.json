@@ -2,7 +2,7 @@
     "title": "Teruteru's World-Class Resturaunt",
     "description": "A chef who's skills can only be described as *Ultimate* has requested to start a new chain in your city! (Unlocks Resturaunt)",
     "sections": "10",
-    "sectionTimes": "6000",
+    "sectionTimes": "60000",
     "buildingsRequired": "1",
     "id": "resturaunt"
 }

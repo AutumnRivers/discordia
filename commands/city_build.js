@@ -31,7 +31,7 @@ module.exports = {
 						if(Number(cuUser[0].stamina) === 0) return message.reply('you cannot work, your stamina is at zero! Replinish by sleeping, by chatting, or by visiting the resturaunt.');
 
 						cuUser.sectionAssigned = 1;
-						console.log(cuUser);
+
 						var userString = JSON.stringify(cuUser);
 						sqlite.run('INSERT INTO projects (guildId, details, workers, sections) VALUES (?, ?, ?, ?)', [message.guild.id, contractString, userString, contract.sections]);
 
@@ -97,7 +97,7 @@ module.exports = {
 						var guildSections = Number(guild.sections);
 
 						for(var sa = 1; sa < guildSections + 1; sa++) {
-							console.log(sa);
+
 							var userAssigned = workers.filter(w => {w.sectionAssigned === sa});
 							if(userAssigned[0]) return;
 							assignedSection = sa;
@@ -121,7 +121,7 @@ module.exports = {
 						var cuUser = cuUser[0];
 
 						var speed = Number(cuUser.speed);
-						var time = Number(contract.sectionTimes);
+						var time = Number(contractDetails.sectionTimes);
 
 						setTimeout(function() {
 							var stamina = Number(cuUser.stamina);
@@ -158,12 +158,10 @@ module.exports = {
 									workerIndex = y;
 									break;
 								}
-								console.log(workerIndex);
+
 								workers.splice(workerIndex, 1);
 								var workerString = JSON.stringify(workers);
 								sqlite.run('UPDATE projects SET sections = ?, workers = ? WHERE guildId = ?', [sections, workerString, message.guild.id]);
-
-								console.log(sections);
 
 								if(sections === 0) {
 									var buildings = JSON.parse(cuGuild.buildings);
@@ -173,15 +171,38 @@ module.exports = {
 									sqlite.run('DELETE FROM projects WHERE guildId = ?', [message.guild.id]);
 									sqlite.run('UPDATE guilds SET buildings = ?, contracts = ? WHERE id = ?', [buildingString, '[]', message.guild.id]);
 
-									var contracts = [];
+									var contractIndex;
+									var contracts = JSON.parse(city.contracts);
+
+									for(var c = 0; c > contracts.length; c++) {
+										if(contracts[c].id == details.id) return;
+										contractIndex = c;
+										break;
+									}
+
+									var remainingContracts = [];
+
+									if(!contractIndex) {
+										remainingContracts = [];
+									} else {
+										var remainingContract = contracts[contractIndex];
+										remainingContracts = [remainingContract];
+									}
+
+									console.log(remainingContracts);
 
 									for(const file of contractFiles) {
 										const contract = require(`../contracts/${file}`);
 										const buildingNum = buildings.length;
-										if(contract.buildingsRequired == buildingNum) contracts.push(contract);
+										const buildingReq = Number(contract.buildingsRequired);
+										console.log(buildingNum);
+										console.log(buildingReq);
+										if(buildingReq == buildingNum) remainingContracts.push(contract);
 									}
 
-									var contractsString = JSON.stringify(contracts);
+									console.log(remainingContracts);
+
+									var contractsString = JSON.stringify(remainingContracts);
 
 									sqlite.run('UPDATE guilds SET contracts = ? WHERE id = ?', [contractsString, message.guild.id]);
 	

@@ -1,0 +1,8 @@
+{
+    "title": "Recreation Building",
+    "description": "New country regulations require cities to have some entertainment. A rec hall sounds nice. (Unlocks Rec Hall)",
+    "sections": "7",
+    "sectionTimes": "30000",
+    "buildingsRequired": "3",
+    "id": "rechall"
+}

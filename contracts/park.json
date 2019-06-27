@@ -1,0 +1,8 @@
+{
+    "title": "Local Park",
+    "description": "A space needs to be cleared for your city to have a park. This won't take long, but there's a lot to clean up!",
+    "sections": "20",
+    "sectionTimes": "10000",
+    "buildingsRequired": "3",
+    "id": "park"
+}
