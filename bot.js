@@ -31,15 +31,16 @@ class Contract {
 }
 
 class Person {
-    constructor(id, stamina, speed, records) {
+    constructor(id, stamina, speed, records, maxStamina) {
         this.id = id;
         this.stamina = stamina;
         this.speed = speed;
         this.records = records;
+        this.maxStamina = maxStamina;
     }
 }
 
-function updatePerson(updatedStamina, updatedSpeed, id, member, records, cuUsers) {
+function updatePerson(updatedStamina, updatedSpeed, id, member, records, cuUsers, maxStamina) {
     var stamina;
     var speed;
 
@@ -52,8 +53,9 @@ function updatePerson(updatedStamina, updatedSpeed, id, member, records, cuUsers
     }
 
     if(!records) records = [];
+    if(!maxStamina) maxStamina = 5;
 
-    var p = new Person(id, stamina, speed, records);
+    var p = new Person(id, stamina, speed, records, maxStamina);
 
     if(!cuUsers) {
         var pString = JSON.stringify([p]);
@@ -96,6 +98,8 @@ bot.on('guildCreate', guild => {
 
 bot.on('message', message => {
     if(message.author.bot) return;
+    //var contractString = JSON.stringify(bot.contracts.get('tutorial'));
+    //console.log(contractString);
     
     sqlite.get(`SELECT prefix FROM guilds WHERE id = ${message.guild.id}`)
     .then(guildPrefix => {

@@ -63,3 +63,4 @@ typings/
 # no
 config.json
 *.sqlite
+!database_template.sqlite
