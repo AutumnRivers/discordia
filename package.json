@@ -17,6 +17,9 @@
   ],
   "author": "Nati",
   "license": "MIT",
+  "engines": {
+    "node": "8.2.1"
+  },
   "bugs": {
     "url": "https://github.com/SmartieCodes/discordia/issues"
   },

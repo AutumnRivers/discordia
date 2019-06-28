@@ -88,7 +88,7 @@ bot.on('guildCreate', guild => {
     .then(guildInfo => {
         if(!guildInfo) {
             var contractString = JSON.stringify(bot.contracts.get('tutorial'));
-            sqlite.run('INSERT INTO guilds (id, level, title, buildings, prefix, users, queue, weather, contracts) VALUES (?, ?, ?, ?, ?, ?, ?)', [guild.id, 0, guild.name, '[]', undefined, '[]', '[]', 'clear', '[' + contractString + ']'])
+            sqlite.run('INSERT INTO guilds (id, level, title, buildings, prefix, users, queue, weather, contracts) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [guild.id, 0, guild.name, '[]', undefined, '[]', '[]', 'clear', '[' + contractString + ']'])
             .then(() => {
                 console.log('Registered ' + guild.name + ' to the database.');
             });

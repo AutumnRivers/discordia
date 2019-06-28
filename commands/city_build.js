@@ -164,55 +164,48 @@ module.exports = {
 								sqlite.run('UPDATE projects SET sections = ?, workers = ? WHERE guildId = ?', [sections, workerString, message.guild.id]);
 
 								if(sections === 0) {
-									var buildings = JSON.parse(cuGuild.buildings);
+									var buildings = JSON.parse(city.buildings);
 									var details = JSON.parse(guild.details);
 									buildings.push(details.id);
 									var buildingString = JSON.stringify(buildings);
 									sqlite.run('DELETE FROM projects WHERE guildId = ?', [message.guild.id]);
 									sqlite.run('UPDATE guilds SET buildings = ?, contracts = ? WHERE id = ?', [buildingString, '[]', message.guild.id]);
 
-									var contractIndex;
-									var contracts = JSON.parse(city.contracts);
+									sqlite.get('SELECT * FROM guilds WHERE id = ?', [message.guild.id])
+									.then(g => {
+										var contracts = JSON.parse(g.contracts);
+										var buildingNum = Number(buildings.length);
+										var contractIndex;
 
-									for(var c = 0; c > contracts.length; c++) {
-										if(contracts[c].id == details.id) return;
-										contractIndex = c;
-										break;
-									}
+										for(var c = 0; c > contracts.length; c++) {
+											if(contracts[c].id == details.id || contracts[c].buildingsRequired != (buildingNum - 1)) return;
+											contractIndex = c;
+										}
 
-									var remainingContracts = [];
+										findContracts(buildings, contract).then(remainingContracts => {
 
-									if(!contractIndex) {
-										remainingContracts = [];
-									} else {
-										var remainingContract = contracts[contractIndex];
-										remainingContracts = [remainingContract];
-									}
+											var contractsString = JSON.stringify(remainingContracts);
 
-									console.log(remainingContracts);
+											console.log(contractsString);
+			
+											message.channel.send('', {embed: {
+												title: "Construction COMPLETE!",
+												description: "**Congratulations!**\n\n`" + contract.title + "` has been finished and is now available in your city!",
+												color: 503575
+											}});
 
-									for(const file of contractFiles) {
-										const contract = require(`../contracts/${file}`);
-										const buildingNum = buildings.length;
-										const buildingReq = Number(contract.buildingsRequired);
-										console.log(buildingNum);
-										console.log(buildingReq);
-										if(buildingReq == buildingNum) remainingContracts.push(contract);
-									}
-
-									console.log(remainingContracts);
-
-									var contractsString = JSON.stringify(remainingContracts);
-
-									sqlite.run('UPDATE guilds SET contracts = ? WHERE id = ?', [contractsString, message.guild.id]);
-	
-									message.channel.send('', {embed: {
-										title: "Construction COMPLETE!",
-										description: "**Congratulations!**\n\n`" + contract.title + "` has been finished and is now available in your city!",
-										color: 503575
-									}});
+											setTimeout(() => {
+												sqlite.run('UPDATE guilds SET contracts = $c WHERE id = $i', [$c=contractsString, $i=message.guild.id])
+												.then(data => {
+													
+												})
+												.catch(err => {
+													if(err) console.error(err);
+												});
+											}, 1000);
+										})
+									})
 								}
-
 							});
 						}, time / speed);
 					});
@@ -220,4 +213,41 @@ module.exports = {
 			});
         });
     }
+}
+
+async function findContracts(buildings, contract) {
+	var rContracts = [];
+
+	const forPromise = new Promise((resolve, reject) => {
+		for(const file of contractFiles) {
+			const contract = require(`../contracts/${file}`);
+			const buildingNum = buildings.length;
+			const buildingReq = Number(contract.buildingsRequired);
+			if(buildingReq == buildingNum) rContracts.push(contract);
+		}
+
+		resolve(rContracts);
+	});
+	
+	const contracts = await forPromise;
+
+	if(!contracts[0]) return [];
+
+	return contracts;
+}
+
+async function findRemaining(guild) {
+	var contracts = JSON.parse(guild.contracts);
+
+	const remPromise = new Promise((resolve, reject) => {
+		var contractIndex;
+
+		
+
+		resolve(contractIndex);
+	});
+
+	const result = await remPromise;
+
+	return result;
 }

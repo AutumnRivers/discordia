@@ -20,7 +20,7 @@ module.exports = {
 
                 message.channel.send('', {embed: {
                     title: `${message.author.username}'s Profile`,
-                    description: `**STAMINA**\nLv. ${user.stamina - 4}\n\n**SPEED**\n${user.speed}x\n\n**RECORDS**\n${records}`,
+                    description: `**STAMINA**\nLv. ${user.maxStamina - 4}\n\n**SPEED**\n${user.speed}x\n\n**RECORDS**\n${records}`,
                     color: '7506394',
                     thumbnail: {
                         url: message.author.avatarURL
