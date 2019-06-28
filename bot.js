@@ -31,11 +31,10 @@ class Contract {
 }
 
 class Person {
-    constructor(id, stamina, speed, records, maxStamina) {
+    constructor(id, stamina, speed, maxStamina) {
         this.id = id;
         this.stamina = stamina;
         this.speed = speed;
-        this.records = records;
         this.maxStamina = maxStamina;
     }
 }
@@ -52,10 +51,9 @@ function updatePerson(updatedStamina, updatedSpeed, id, member, records, cuUsers
         speed = updatedSpeed;
     }
 
-    if(!records) records = [];
     if(!maxStamina) maxStamina = 5;
 
-    var p = new Person(id, stamina, speed, records, maxStamina);
+    var p = new Person(id, stamina, speed, maxStamina);
 
     if(!cuUsers) {
         var pString = JSON.stringify([p]);
@@ -113,15 +111,14 @@ bot.on('message', message => {
 
         sqlite.get(`SELECT users FROM guilds WHERE id = ${message.guild.id}`)
         .then(users => {
-            if(!users.users) {
-                updatePerson(5, 1, message.author.id, message.member);
+            var usersObject = JSON.parse(users.users);
+            if(!usersObject[0]) {
+                updatePerson(5, 1, message.author.id, message.member, undefined, undefined, 5);
             } else {
-                var usersObject = JSON.parse(users.users);
-
                 var currentUser = usersObject.find(o => o.id === message.author.id);
 
                 if(!currentUser) {
-                    updatePerson(5, 1, message.author.id, message.member, usersObject);
+                    updatePerson(5, 1, message.author.id, message.member, [], usersObject, 5);
                 }
             }
         });

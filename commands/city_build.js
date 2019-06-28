@@ -46,21 +46,17 @@ module.exports = {
 						var time = Number(contract.sectionTimes);
 
 						setTimeout(function() {
+
 							var stamina = Number(cuUser.stamina);
 							stamina -= 1;
 							cuUser.stamina = stamina;
-							var sections = contract.sections;
+							var sections = Number(contract.sections);
 							sections -= 1;
-							message.channel.send('<@' + message.author.id + '>', {embed: {
-								title: "Construction BREAK!",
-								description: "**" + message.author.username + "** has finished their section on `" + contract.title + "`, and is now at " + cuUser.stamina + " stamina.",
-								color: 490927
-							}});
+							
 							var users = JSON.parse(city.users);
 							var index;
 							for(x = 0; x < users.length; x++) {
-								if(users[x].id !== cuUser.id) return;
-								index = x;
+								if(users[x].id == cuUser.id) index = x;
 							}
 
 							users[index] = cuUser;
@@ -73,7 +69,15 @@ module.exports = {
 								var workers = JSON.parse(project.workers);
 								workers.splice(0, 1);
 								var workerString = JSON.stringify(workers);
+								console.log(sections);
+								console.log(workerString);
 								sqlite.run('UPDATE projects SET sections = ?, workers = ? WHERE guildId = ?', [sections, workerString, message.guild.id]);
+
+								message.channel.send('<@' + message.author.id + '>', {embed: {
+									title: "Construction BREAK!",
+									description: "**" + message.author.username + "** has finished their section on `" + contract.title + "`, and is now at " + cuUser.stamina + " stamina.",
+									color: 490927
+								}});
 							})
 						}, time / speed);
 					});
@@ -86,6 +90,8 @@ module.exports = {
 
 					sqlite.get('SELECT * FROM guilds WHERE id = ?', [message.guild.id])
 					.then(cuGuild => {
+					sqlite.get('SELECT * FROM projects WHERE guildId = ?', [message.guild.id])
+					.then(guild => {
 						var users = JSON.parse(cuGuild.users);
 						var workers = JSON.parse(guild.workers);
 						var contractDetails = JSON.parse(guild.details);
@@ -130,7 +136,7 @@ module.exports = {
 
 							sqlite.get('SELECT * FROM projects WHERE guildId = ?', [message.guild.id])
 							.then(project => {
-								var sections = project.sections;
+								var sections = Number(project.sections);
 								sections -= 1;
 								
 								message.channel.send('<@' + message.author.id + '>', {embed: {
@@ -141,9 +147,7 @@ module.exports = {
 								var users = JSON.parse(city.users);
 								var index;
 								for(x = 0; x < users.length; x++) {
-									if(users[x].id !== cuUser.id) return;
-									index = x;
-									break;
+									if(users[x].id == message.author.id) index = x;
 								}
 
 								users[index] = cuUser;
@@ -154,10 +158,12 @@ module.exports = {
 								var workers = JSON.parse(project.workers);
 								var workerIndex;
 								for(y = 0; y < workers.length; y++) {
-									if(workers[y].id !== cuUser.id) return;
+									if(workers[y].id !== message.author.id) return;
 									workerIndex = y;
 									break;
 								}
+
+								console.log(sections);
 
 								workers.splice(workerIndex, 1);
 								var workerString = JSON.stringify(workers);
@@ -209,7 +215,8 @@ module.exports = {
 							});
 						}, time / speed);
 					});
-				}
+				})
+				};
 			});
         });
     }
