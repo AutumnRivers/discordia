@@ -125,13 +125,19 @@ module.exports = {
 						}});
 
 						var cuUser = cuUser[0];
+						var wSpeed = Number(cuUser.speed);
 
-						var speed = Number(cuUser.speed);
+						if(cuGuild.weather === 'windy') wSpeed *= 1.5;
+
+						var speed = wSpeed;
 						var time = Number(contractDetails.sectionTimes);
 
 						setTimeout(function() {
+							var additionalDetails = '';
 							var stamina = Number(cuUser.stamina);
 							stamina -= 1;
+							if(cuGuild.weather === 'rain' && stamina > 0) stamina -= 1;
+							if(cuGuild.weather === 'rain' && stamina > 0) additionalDetails = "\n\nDue to harsh weather conditions, they also lost extra stamina."
 							cuUser.stamina = stamina;
 
 							sqlite.get('SELECT * FROM projects WHERE guildId = ?', [message.guild.id])
@@ -141,7 +147,7 @@ module.exports = {
 								
 								message.channel.send('<@' + message.author.id + '>', {embed: {
 									title: "Construction BREAK!",
-									description: "**" + message.author.username + "** has finished their section on `" + contract.title + "`, and is now at " + stamina + " stamina.",
+									description: "**" + message.author.username + "** has finished their section on `" + contract.title + "`, and is now at " + stamina + " stamina." + additionalDetails,
 									color: 490927
 								}});
 								var users = JSON.parse(city.users);

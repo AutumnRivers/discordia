@@ -1,0 +1,9 @@
+{
+    "title": "Wholesale Groceries",
+    "description": "A well-known grocery chain is looking to open up a new location in your city.",
+    "sections": "12",
+    "sectionTimes": "300000",
+    "buildingsRequired": "5",
+    "id": "groceries",
+    "tourDesc": "A grocery store is bustling with activity."
+}

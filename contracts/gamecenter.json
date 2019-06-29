@@ -4,5 +4,6 @@
     "sections": "10",
     "sectionTimes": "30000",
     "buildingsRequired": "2",
-    "id": "gamecenter"
+    "id": "gamecenter",
+    "tourDesc": "A game center sits near the ctOS tower. (`city!enter gamecenter`)"
 }

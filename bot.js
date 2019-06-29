@@ -92,6 +92,12 @@ bot.on('guildCreate', guild => {
             });
         };
     });
+
+    bot.user.setActivity(bot.guilds.size + ' cities grow! | city!help', { type: 'WATCHING' });
+});
+
+bot.on('guildDelete', () => {
+    bot.user.setActivity(bot.guilds.size + ' cities grow! | city!help', { type: 'WATCHING' });
 });
 
 bot.on('message', message => {
@@ -133,4 +139,28 @@ bot.on('message', message => {
         }
 
     });
+
+    randomWeather();
 });
+
+function randomWeather() {
+
+    setTimeout(() => {
+
+        sqlite.all('SELECT * FROM guilds')
+        .then(r => {
+
+            r.forEach(city => {
+                var conditions = ['clear', 'rain', 'windy'];
+                var condition = conditions[Math.floor(Math.random() * conditions.length)];
+
+                sqlite.run('UPDATE guilds SET weather = ? WHERE id = ?', [condition, city.id]);
+            });
+
+        });
+
+        randomWeather();
+
+    }, 10800000);
+    
+}

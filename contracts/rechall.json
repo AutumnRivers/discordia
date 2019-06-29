@@ -4,5 +4,6 @@
     "sections": "7",
     "sectionTimes": "30000",
     "buildingsRequired": "4",
-    "id": "rechall"
+    "id": "rechall",
+    "tourDesc": "A recreation hall is located near the game center. Fun! (`city!enter rechall`)"
 }

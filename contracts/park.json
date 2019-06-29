@@ -4,5 +4,6 @@
     "sections": "20",
     "sectionTimes": "10000",
     "buildingsRequired": "3",
-    "id": "park"
+    "id": "park",
+    "tourDesc": "A nice and peaceful park sits near the entrance of the city. (`city!enter park`)"
 }

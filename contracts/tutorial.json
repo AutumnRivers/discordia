@@ -4,5 +4,6 @@
     "sections": "2",
     "sectionTimes": "6000",
     "buildingsRequired": "0",
-    "id": "tutorial"
+    "id": "tutorial",
+    "tourDesc": "A giant tower with the letters \"ctOS\" sit in the center of the city. (`city!enter tutorial`)"
 }

@@ -1,0 +1,9 @@
+{
+    "title": "Hack Week Race",
+    "description": "Discord is back, and they want to start the Hack Week in your city! (Finishes Discorda 1.0)",
+    "sections": "50",
+    "sectionTimes": "600000",
+    "buildingsRequired": "8",
+    "id": "finale",
+    "tourDesc": "A race track extends from side to side of the city. It seems complete!"
+}

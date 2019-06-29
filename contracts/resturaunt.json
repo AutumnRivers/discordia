@@ -4,5 +4,6 @@
     "sections": "10",
     "sectionTimes": "60000",
     "buildingsRequired": "1",
-    "id": "resturaunt"
+    "id": "resturaunt",
+    "tourDesc": "Resturaunts run along the streets, emitting an exotic aroma. (`city!enter resturaunt`)"
 }

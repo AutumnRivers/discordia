@@ -1,0 +1,9 @@
+{
+    "title": "Future Gadget Lab",
+    "description": "A small team wish to move their Future Gadget Lab to your city to avoid being detected by \"The Organization\".",
+    "sections": "6",
+    "sectionTimes": "600000",
+    "buildingsRequired": "6",
+    "id": "steins",
+    "tourDesc": "A shabby looking building is emitting strange noises. A note is written on the door: `El Psy Kongoroo.`"
+}
